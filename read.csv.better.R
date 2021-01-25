@@ -9,7 +9,7 @@
 # 1 Xáš€â€‚â€ƒâ€„â€…â€†â€‡â€ˆâ€‰â€Šâ€¯â\u0081Ÿã€€X
 
 # Better:
-# read.csv.better(file_path, header = FALSE)
+# read.csv.better("spcs.csv", header = FALSE)
 #   V1
 # 1 X             X
 
