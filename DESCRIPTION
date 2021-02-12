@@ -1,0 +1,16 @@
+Package: Rutilitybelt
+Title: Miscellaneous SESYNC Cyberhelp R Functions
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Quentin",
+           family = "Read",
+           role = c("aut", "cre"),
+           email = "qread@sesync.org")
+Description: Some miscellaneous helpful R functions put together by the SESYNC Cyberhelp team for themselves and SESYNC users.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    data.table
