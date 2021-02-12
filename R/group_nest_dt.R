@@ -2,6 +2,7 @@
 #' 
 #' This function was written by TS Barrett in a document available at https://osf.io/f6pxw/download.
 #' 
+#' @import data.table
 #' @export
 group_nest_dt <-function(dt, ..., .key = "data") {
   stopifnot(is.data.table(dt))

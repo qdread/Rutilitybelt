@@ -3,3 +3,4 @@
 export(group_nest_dt)
 export(read.csv.better)
 export(unnest_dt)
+import(data.table)
