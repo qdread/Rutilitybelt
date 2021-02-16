@@ -5,7 +5,7 @@
 #' 
 #' @import data.table
 #' @export
-group_nest_dt <-function(dt, ..., .key = "data") {
+group_nest_dt <- function(dt, ..., .key = "data", group_vars = NULL) {
   stopifnot(is.data.table(dt))
   
   if (missing(group_vars)) {
@@ -25,11 +25,16 @@ group_nest_dt <-function(dt, ..., .key = "data") {
 #' This function was written by TS Barrett in a document available at https://osf.io/f6pxw/download.
 #' 
 #' @export
-unnest_dt <-function(dt, col, id) {
+unnest_dt <- function(dt, col, id, id_vars = NULL) {
   stopifnot(is.data.table(dt))
   
-  by <-substitute(id)
-  col <-substitute(unlist(col, recursive = FALSE))
-  
-  dt[, eval(col), by = by]
+  if (missing(id_vars)) {
+    by <-substitute(id)
+    col <-substitute(unlist(col, recursive = FALSE))
+    
+    dt[, eval(col), by = eval(by)]
+  } else {
+    col <-substitute(unlist(col, recursive = FALSE))
+    dt[, eval(col), by = id_vars]
+  }
 }
