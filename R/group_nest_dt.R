@@ -1,15 +1,21 @@
 #' Nest a data.table by group
 #' 
-#' This function was written by TS Barrett in a document available at https://osf.io/f6pxw/download.
+#' This function was originally written by TS Barrett in a document available at https://osf.io/f6pxw/download.
+#' QDR edited so that it can also accept a character vector (good for programmatic usage of the function)
 #' 
 #' @import data.table
 #' @export
 group_nest_dt <-function(dt, ..., .key = "data") {
   stopifnot(is.data.table(dt))
   
-  by <-substitute(list(...))
+  if (missing(group_vars)) {
+    by <-substitute(list(...))
+    
+    dt <- dt[, list(list(.SD)), by = eval(by)]
+  } else {
+    dt <- dt[, list(list(.SD)), by = c(group_vars)]
+  }
   
-  dt <- dt[, list(list(.SD)), by = eval(by)]
   setnames(dt, old = "V1", new = .key)
   dt
 }
@@ -25,5 +31,5 @@ unnest_dt <-function(dt, col, id) {
   by <-substitute(id)
   col <-substitute(unlist(col, recursive = FALSE))
   
-  dt[, eval(col), by = eval(by)]
+  dt[, eval(col), by = by]
 }

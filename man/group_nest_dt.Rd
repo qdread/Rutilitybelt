@@ -7,5 +7,6 @@
 group_nest_dt(dt, ..., .key = "data")
 }
 \description{
-This function was written by TS Barrett in a document available at https://osf.io/f6pxw/download.
+This function was originally written by TS Barrett in a document available at https://osf.io/f6pxw/download.
+QDR edited so that it can also accept a character vector (good for programmatic usage of the function)
 }
