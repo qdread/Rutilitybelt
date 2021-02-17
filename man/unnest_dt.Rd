@@ -4,7 +4,7 @@
 \alias{unnest_dt}
 \title{Unnest a nested data.table}
 \usage{
-unnest_dt(dt, col, id)
+unnest_dt(dt, col, id, id_vars = NULL)
 }
 \description{
 This function was written by TS Barrett in a document available at https://osf.io/f6pxw/download.

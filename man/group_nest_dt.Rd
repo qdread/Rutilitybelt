@@ -4,7 +4,7 @@
 \alias{group_nest_dt}
 \title{Nest a data.table by group}
 \usage{
-group_nest_dt(dt, ..., .key = "data")
+group_nest_dt(dt, ..., .key = "data", group_vars = NULL)
 }
 \description{
 This function was originally written by TS Barrett in a document available at https://osf.io/f6pxw/download.
