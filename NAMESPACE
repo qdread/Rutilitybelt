@@ -2,6 +2,7 @@
 
 export(group_nest_dt)
 export(read.csv.better)
+export(read_all_csvs)
 export(replace_na_dt)
 export(unnest_dt)
 import(data.table)
