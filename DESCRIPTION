@@ -1,16 +1,24 @@
 Package: Rutilitybelt
-Title: Miscellaneous SESYNC Cyberhelp R Functions
+Title: Quentin's Bag of R Tricks
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Quentin",
            family = "Read",
            role = c("aut", "cre"),
-           email = "qread@sesync.org")
-Description: Some miscellaneous helpful R functions put together by the SESYNC Cyberhelp team for themselves and SESYNC users.
+           email = "quentin.read@usda.gov")
+Description: Some miscellaneous helpful R functions Quentin likes to use.
+   These include a couple of functions for data.table so you can group and nest like
+   tidyverse, a "stealth" ggplot theme, a function to read lots of CSVs with fread,
+   and a way to get Tukey letters from Bayesian contrasts.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
-    data.table
+    data.table,
+    emmeans,
+    multcomp,
+    ggplot2,
+    gridExtra,
+    tidyr
