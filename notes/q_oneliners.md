@@ -49,3 +49,17 @@ walk(list.files('path/to/files', pattern = '*.csv', full.names = TRUE),
 ```
 
 note: Add additional arguments to `fread` as needed.
+
+## Rmarkdown header
+
+Header to get the date in a good format:
+
+```
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+```
+
+Alternative:
+
+```
+date: "`r format(Sys.time(), '%d %B %Y')`"
+```
