@@ -63,3 +63,25 @@ Alternative:
 ```
 date: "`r format(Sys.time(), '%d %B %Y')`"
 ```
+
+## Windows command prompt
+
+Symbolic link to a directory (run as admin). Replace the `/d` with `/J` to get a directory junction.
+
+```
+mklink /d data C:\stuff\foo
+```
+
+In R, run as admin, create a symlink in this way:
+
+```
+file.symlink(from = 'C:/Users/qdread/onedrive_usda/ars_projects/xxx', to = 'data')
+```
+
+## Regex
+
+In R, get all numbers between two specific character strings without actually getting the characters. The `?<=` within the initial parens means "find text preceded by ..." and `?=` means "find text followed by ..."
+
+```
+str_extract_all(x, '(?<=foo)([0-9]+)(?=bar)')
+```
