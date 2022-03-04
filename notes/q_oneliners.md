@@ -48,9 +48,28 @@ walk(list.files('path/to/files', pattern = '*.csv', full.names = TRUE),
      ~ assign(gsub('\\.csv', '', basename(.)), fread(.), envir = .GlobalEnv))
 ```
 
-note: Add additional arguments to `fread` as needed.
+*note: Add additional arguments to `fread` as needed.*
 
-## Rmarkdown header
+Do a left join keeping all rows in `df1`. This really only works for small numbers of columns. 
+
+```
+df1[df2, on = .(foo,bar), `:=` (baz = i.baz, floop = i.floop)]
+```
+
+This is the same as above but for more columns.
+
+```
+DF1[DF2, on = .(date, id), names(DF2)[3:4] := mget(paste0("i.", names(DF2)[3:4]))]
+```
+
+Or if the vector of column names is created beforehand.
+
+```
+cols <- names(DF2)[3:4]
+DF1[DF2, on = .(date, id), (cols) := mget(paste0("i.", cols))]
+```
+
+## Rmarkdown
 
 Header to get the date in a good format:
 
@@ -62,6 +81,12 @@ Alternative:
 
 ```
 date: "`r format(Sys.time(), '%d %B %Y')`"
+```
+
+Figures side by side:
+
+```
+{r, fig.show="hold", out.width="50%"}
 ```
 
 ## Windows command prompt

@@ -46,3 +46,12 @@ contrast_letters <- function(contrasts, levels_ordered, scale = 'additive', baye
                            comps = comps_mat,
                            lvl_order = levels_ordered)
 }
+
+#' Utility function to readjust alpha for doing Sidak corrections within each CLD by group
+#' @export
+readjusted_alpha <- function(true_alpha, treatments_total, treatments_per_group) {
+  m1 <- choose(prod(treatments_total), 2)
+  m2 <- choose(prod(treatments_per_group), 2)
+  alpha_sidak <- 1 - (1 - true_alpha)^(1/m1)
+  1 - (1 - alpha_sidak)^m2
+}
