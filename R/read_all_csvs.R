@@ -3,8 +3,11 @@
 #' The resulting R objects will have the same name as the CSVs, 
 #' with the .csv suffix removed. Uses fread()
 #' 
-#' @import purrr
 #' @export
 read_all_csvs <- function(dir_path) {
-  purrr::walk(dir(dir_path, pattern = '*.csv'), ~ assign(gsub('.csv', '', .), fread(file.path(dir_path, .)), envir = .GlobalEnv))
+  csv_files <- dir(dir_path, pattern = '*.csv')
+  invisible(sapply(
+    csv_files,
+    function(filename) assign(gsub('.csv', '', filename), fread(file.path(dir_path, filename)), envir = .GlobalEnv)
+  ))
 }
