@@ -1,6 +1,6 @@
 Package: Rutilitybelt
 Title: Quentin's Bag of R Tricks
-Version: 0.0.0.9000
+Version: 0.1
 Authors@R: 
     person(given = "Quentin",
            family = "Read",

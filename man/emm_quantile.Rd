@@ -2,10 +2,15 @@
 % Please edit documentation in R/emm_quantile.R
 \name{emm_quantile}
 \alias{emm_quantile}
-\title{Function to get quantiles from an emm or contrast object}
+\title{Function to get quantiles from a Bayesian emm or contrast object}
 \usage{
-emm_quantile(x, probs = c(0.5, 0.025, 0.975, 0.05, 0.95, 0.17, 0.83))
+emm_quantile(
+  x,
+  probs = c(0.5, 0.005, 0.995, 0.025, 0.975, 0.05, 0.95, 0.17, 0.83)
+)
 }
 \description{
-Function to get quantiles from an emm or contrast object
+It calculates median and 99\%, 95\%, 90\%, and 66\% quantile-based HPD.
+For contrasts, it separates group1 and group2 into separate columns.
+For emmGrids not contrasts, it provides a separate column for each factor.
 }
