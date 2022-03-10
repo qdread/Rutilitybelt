@@ -42,5 +42,5 @@ pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html') {
   } else {
     xpretty <- sapply(xsplit, function(n) paste0(as.numeric(n)[1], ' \times 10^{', as.numeric(n)[2], '}'))
   }
-  ifelse(abs(log10(x)) > log_thresh, xpretty, as.character(xs))
+  ifelse(abs(log10(abs(x))) > log_thresh & x != 0, xpretty, as.character(xs))
 }
