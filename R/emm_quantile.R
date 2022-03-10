@@ -7,7 +7,11 @@
 #' @export
 emm_quantile <- function(x, probs = c(0.5, 0.005, 0.995, 0.025, 0.975, 0.05, 0.95, 0.17, 0.83)) {
   if (x@roles$predictors[1] == 'contrast') {
-    cc <- combn(1:(nrow(x@misc$orig.grid)), 2)
+    if (x@misc$.pairby == '') {
+      cc <- combn(1:(nrow(x@misc$orig.grid)), 2)
+    } else {
+      cc <- do.call(cbind, by(x@misc$orig.grid, x@misc$orig.grid[, -1], function(dat) combn(1:nrow(dat), 2)))
+    }
     levs <- as.data.frame(t(apply(cc, 2, function(ii) apply(x@misc$orig.grid[ii, , drop = FALSE], 1, paste, collapse = ' '))))
     names(levs) <- c('group1', 'group2')
   } else {
