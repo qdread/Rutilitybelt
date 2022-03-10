@@ -18,3 +18,29 @@ anova2kable <- function(a, row_labels, table_caption = NULL, sig_figs = 3, alpha
 }
 
 # FIXME later we could add cld() here.
+
+#' Function to produce "pretty" scientific notation in HTML or LaTeX style
+#' 
+#' @param x Numeric vector.
+#' @param sig_figs Number of significant figures for the mantissa. Default 3.
+#' @param log_thresh Any number with a base-10 exponent (absolute value) 
+#' less than this number will not be output in scientific notation. Default 4.
+#' @param style 'html' (default) or 'latex'
+#' 
+#' @return Character vector.
+#'
+#' @export
+pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html') {
+  style <- tolower(style)
+  stopifnot(style %in% c('html', 'latex'))
+  
+  xs <- signif(x, sig_figs)
+  xsci <- format(xs, scientific = TRUE)
+  xsplit <- strsplit(xsci, 'e')
+  if (style == 'html') {
+    xpretty <- sapply(xsplit, function(n) paste0(as.numeric(n)[1], ' &times; 10<sup>', as.numeric(n)[2], '</sup>'))
+  } else {
+    xpretty <- sapply(xsplit, function(n) paste0(as.numeric(n)[1], ' \times 10^{', as.numeric(n)[2], '}'))
+  }
+  ifelse(abs(log10(x)) > log_thresh, xpretty, as.character(xs))
+}
