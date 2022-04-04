@@ -110,3 +110,23 @@ In R, get all numbers between two specific character strings without actually ge
 ```
 str_extract_all(x, '(?<=foo)([0-9]+)(?=bar)')
 ```
+
+## gt
+
+Some options for a nice grouped table
+
+```
+tab_options(
+    row_group.background.color = "#D4EBF2",
+    row_group.font.weight = 'bold',
+    column_labels.font.weight = 'bold'
+  )
+```
+
+## tidyverse
+
+Pivoting by multiple column sets, using a name pattern (if the name is separated by an `_` as `grp2_metric`)
+
+```
+dat %>% pivot_longer(-grp1, names_to = c('grp2', '.value'), names_pattern = '(.+)_(.+)') 
+```
