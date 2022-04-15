@@ -69,6 +69,12 @@ cols <- names(DF2)[3:4]
 DF1[DF2, on = .(date, id), (cols) := mget(paste0("i.", cols))]
 ```
 
+Fastest way to filter rows conditionally *within* each group. In this example we keep the row(s) with highest value of `v` in each group defined by `grp`. Use `which.max()` if you only want one row.
+
+```
+dt[dt[, .I[v == max(v)], by = grp]$V1]
+```
+
 ## Rmarkdown
 
 Header to get the date in a good format:
