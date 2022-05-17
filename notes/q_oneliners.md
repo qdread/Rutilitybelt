@@ -103,7 +103,7 @@ Symbolic link to a directory (run as admin). Replace the `/d` with `/J` to get a
 mklink /d data C:\stuff\foo
 ```
 
-In R, run as admin, create a symlink in this way:
+In R, run as admin, create a symlink in this way. Note in Windows the link comes first, in R and Linux shell the link comes last.
 
 ```
 file.symlink(from = 'C:/Users/qdread/onedrive_usda/ars_projects/xxx', to = 'data')
