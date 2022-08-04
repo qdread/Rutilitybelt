@@ -141,3 +141,10 @@ Pivoting by multiple column sets, using a name pattern (if the name is separated
 ```
 dat %>% pivot_longer(-grp1, names_to = c('grp2', '.value'), names_pattern = '(.+)_(.+)') 
 ```
+
+One-hot encoding of a column, must have a unique ID column too.
+
+```
+y <- dcast(dat[, .(ID, factor_col)], ID ~ factor_col, length)
+y[, ID := NULL]
+```
