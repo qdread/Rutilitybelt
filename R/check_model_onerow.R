@@ -2,7 +2,7 @@
 #' @export
 check_model_onerow <- function(fit, common_title) {
   check_plots <- plot(performance::check_model(fit, check = c('qq', 'normality', 'homogeneity'), panel = FALSE))
-  plot_row <- cowplot::plot_grid(plotlist = cplot_plots, nrow = 1) 
+  plot_row <- cowplot::plot_grid(plotlist = check_plots, nrow = 1) 
   
   title <- cowplot::ggdraw() + 
     cowplot::draw_label(
