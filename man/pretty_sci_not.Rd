@@ -4,7 +4,7 @@
 \alias{pretty_sci_not}
 \title{Function to produce "pretty" scientific notation in HTML or LaTeX style}
 \usage{
-pretty_sci_not(x, sig_figs = 3, log_thresh = 4, style = "html")
+pretty_sci_not(x, sig_figs = 3, log_thresh = 4, style = "html", minimum = NA)
 }
 \arguments{
 \item{x}{Numeric vector.}
@@ -15,6 +15,9 @@ pretty_sci_not(x, sig_figs = 3, log_thresh = 4, style = "html")
 less than this number will not be output in scientific notation. Default 4.}
 
 \item{style}{'html' (default) or 'latex'}
+
+\item{minimum}{if provided, any number less than this value will be set to this
+value and preceded by ">"}
 }
 \value{
 Character vector.

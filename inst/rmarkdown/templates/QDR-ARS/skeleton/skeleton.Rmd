@@ -12,4 +12,19 @@ output:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
+# Summary
 
+# Setup
+
+```{r load packages}
+
+```
+
+```{r ggplot theme, include = FALSE}
+windowsFonts(`fgbook` = windowsFont("Franklin Gothic Book"))
+theme_set(
+  theme_bw(base_family = 'fgbook') + 
+    theme(panel.grid = element_blank(),
+          strip.background = element_blank())
+)
+```

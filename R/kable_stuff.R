@@ -26,11 +26,14 @@ anova2kable <- function(a, row_labels, table_caption = NULL, sig_figs = 3, alpha
 #' @param log_thresh Any number with a base-10 exponent (absolute value) 
 #' less than this number will not be output in scientific notation. Default 4.
 #' @param style 'html' (default) or 'latex'
+#' @param minimum if provided, any number less than this value will be set to this
+#' value and preceded by ">"
 #' 
 #' @return Character vector.
 #'
 #' @export
-pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html') {
+pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html', minimum = NA) {
+  if (!missing(minimum)) x[x < minimum] <- minimum
   style <- tolower(style)
   stopifnot(style %in% c('html', 'latex'))
   
@@ -42,5 +45,9 @@ pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html') {
   } else {
     xpretty <- sapply(xsplit, function(n) paste0(as.numeric(n)[1], ' \times 10^{', as.numeric(n)[2], '}'))
   }
-  ifelse(abs(log10(abs(x))) > log_thresh & x != 0, xpretty, as.character(xs))
+  xpretty <- ifelse(abs(log10(abs(x))) > log_thresh & x != 0, xpretty, as.character(xs))
+  
+  if (!missing(minimum)) xpretty[x < minimum] <- paste('<', xpretty[x < minimum])
+  
+  return(xpretty)
 }
