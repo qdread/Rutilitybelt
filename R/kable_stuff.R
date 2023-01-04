@@ -47,7 +47,7 @@ pretty_sci_not <- function(x, sig_figs = 3, log_thresh = 4, style = 'html', mini
   }
   xpretty <- ifelse(abs(log10(abs(x))) > log_thresh & x != 0, xpretty, as.character(xs))
   
-  if (!missing(minimum)) xpretty[x < minimum] <- paste('<', xpretty[x < minimum])
+  if (!missing(minimum)) xpretty[x == minimum] <- paste('<', xpretty[x == minimum])
   
   return(xpretty)
 }
