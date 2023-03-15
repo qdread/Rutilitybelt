@@ -6,7 +6,18 @@ output:
   html_document:
     toc: true
     toc_depth: 2
+    toc_float: true
+    code_folding: hide
+    df_print: paged
 ---
+
+```{css, echo = FALSE}
+.gt_table {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+```
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
