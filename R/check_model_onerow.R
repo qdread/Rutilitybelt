@@ -1,7 +1,7 @@
 #' Custom function to plot three check model plots on one line with common title
 #' @export
-check_model_onerow <- function(fit, common_title) {
-  check_plots <- plot(performance::check_model(fit, check = c('qq', 'normality', 'homogeneity'), panel = FALSE))
+check_model_onerow <- function(fit, common_title, checks = c('qq', 'normality', 'homogeneity')) {
+  check_plots <- plot(performance::check_model(fit, check = checks, panel = FALSE))
   plot_row <- cowplot::plot_grid(plotlist = check_plots, nrow = 1) 
   
   title <- cowplot::ggdraw() + 
