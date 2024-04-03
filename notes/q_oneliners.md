@@ -1,7 +1,6 @@
 ---
 output:
   pdf_document: default
-  html_document: default
 ---
 # Q'S ÜBER HELPFUL ONE LINERS
 
@@ -80,7 +79,14 @@ Fastest way to filter rows conditionally *within* each group. In this example we
 dt[dt[, .I[v == max(v)], by = grp]$V1]
 ```
 
-## Rmarkdown
+One-hot encoding of a column, must have a unique ID column too.
+
+```
+y <- dcast(dat[, .(ID, factor_col)], ID ~ factor_col, length)
+y[, ID := NULL]
+```
+
+## Rmarkdown/knitr
 
 Header to get the date in a good format:
 
@@ -99,6 +105,14 @@ Figures side by side:
 ```
 {r, fig.show="hold", out.width="50%"}
 ```
+
+Show or hide code in an individual chunk:
+
+```
+{r, class.source = 'fold-show'}
+```
+
+(`fold-hide` to hide the code instead).
 
 ## Windows command prompt
 
@@ -142,9 +156,21 @@ Pivoting by multiple column sets, using a name pattern (if the name is separated
 dat %>% pivot_longer(-grp1, names_to = c('grp2', '.value'), names_pattern = '(.+)_(.+)') 
 ```
 
-One-hot encoding of a column, must have a unique ID column too.
+One-hot encoding
 
 ```
-y <- dcast(dat[, .(ID, factor_col)], ID ~ factor_col, length)
-y[, ID := NULL]
+tibble %>%
+	mutate(n = 1) %>%
+	pivot_wider(names_from = column_to_encode, values_from = n, values_fill = 0)
+```
+
+## ggplot2
+
+Semitransparent median bar
+
+```
+stat_summary(
+    fun = median, geom = "point", 
+    shape = 95, size = 50, alpha = 0.5
+  )
 ```

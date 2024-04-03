@@ -24,3 +24,12 @@ ggdraw(p) +
   draw_label('blah', x = 0.5, y = 0.97) + 
   draw_label('blah', x= 0.99, y= 0.5, angle = -90)
 ```
+
+## Semitransparent median bar
+
+```
+stat_summary(
+    fun = median, geom = "point", 
+    shape = 95, size = 50, alpha = 0.5
+  )
+```
