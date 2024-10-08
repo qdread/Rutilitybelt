@@ -31,12 +31,21 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
 ```{r ggplot theme, include = FALSE}
-windowsFonts(`fgbook` = windowsFont('Franklin Gothic Book'))
 theme_set(
-  theme_bw(base_family = 'fgbook') + 
+  theme_bw(base_size = 14) + 
     theme(panel.grid = element_blank(),
-          strip.background = element_blank())
+          strip.background = element_blank(),
+          axis.text = element_text(color = 'black'))
 )
+
+tabopts <- function(gt) {
+  gt |>
+    gt::tab_options(
+      column_labels.font.weight = 'bold',
+      row_group.font.weight = 'bold',
+      row_group.background.color = 'slateblue3'
+    )
+}
 
 options(mc.cores = 4, brms.backend = 'cmdstanr', brms.file_refit = 'on_change')
 ```
