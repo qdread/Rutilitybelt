@@ -47,6 +47,35 @@ contrast_letters <- function(contrasts, levels_ordered, scale = 'additive', baye
                            lvl_order = levels_ordered)
 }
 
+#' Bayesian multiple comparison letters from posterior summary
+#' 
+#' Uses output from \code{bayestestR::describe_posterior()} run on \code{emmeans} objects. Based on the Bayesian p-value analog.
+#' 
+#' @param post_cons Data frame of contrasts, usually an object of class describe_posterior
+#' @param post_means Data frame of means, used for correctly ordering the contrasts, usually an object of class describe_posterior
+#' @param group_col Name of column, the levels of which are being compared
+#' @param contrast_col Name of column with the pairwise contrast names, default is \code{"contrast"}
+#' @param mean_col Name of column with the means in post_means, default is \code{"emmean"}
+#' @param pvalue_col Name of column with the Bayesian p-value analog, default is \code{"p_MAP"}
+#' @param contrast_sep Separator of the two levels in the contrast column, default is \code{" - "}
+#' @param alpha Significance cutoff, defaults to 0.05 for no good reason
+#' @param decreasing_letters Defaults to FALSE so that "a" is the lowest mean. If TRUE, "a" is the highest mean.
+#' 
+#' @import multcomp
+#' @export
+bayes_multcompletters <- function(post_cons, post_means, group_col, contrast_col = 'contrast', mean_col = 'emmean', pvalue_col = 'p_MAP', contrast_sep = ' - ', alpha = 0.05, decreasing_letters = FALSE) {
+  different <- with(post_cons, setNames(get(pvalue_col) < alpha, get(contrast_col)))
+  levels_ordered <- as.character(post_means[[group_col]][order(post_means[[mean_col]])])
+  
+  letter_vec <- multcomp:::insert_absorb(different,
+                                         decreasing = decreasing_letters,
+                                         separator = contrast_sep,
+                                         lvl_order = levels_ordered)
+  data.frame(group = names(letter_vec$Letters), letter = letter_vec$Letters) |> setNames(c(group_col, 'letter'))
+  
+}
+
+
 #' Utility function to readjust alpha for doing Sidak corrections within each CLD by group
 #' @export
 readjusted_alpha <- function(true_alpha, treatments_total, treatments_per_group) {
@@ -55,3 +84,7 @@ readjusted_alpha <- function(true_alpha, treatments_total, treatments_per_group)
   alpha_sidak <- 1 - (1 - true_alpha)^(1/m1)
   1 - (1 - alpha_sidak)^m2
 }
+
+
+
+

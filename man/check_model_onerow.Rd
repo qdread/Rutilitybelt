@@ -4,7 +4,11 @@
 \alias{check_model_onerow}
 \title{Custom function to plot three check model plots on one line with common title}
 \usage{
-check_model_onerow(fit, common_title)
+check_model_onerow(
+  fit,
+  common_title,
+  checks = c("qq", "normality", "homogeneity")
+)
 }
 \description{
 Custom function to plot three check model plots on one line with common title
