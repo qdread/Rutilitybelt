@@ -14,7 +14,6 @@
 #' @export
 get_pairwise_differences <- function(dt, valuevar, groupvar, byvars, op = `-`, reverse = FALSE, difference_name = 'diff') {
   grps <- sort(unique(dt[[groupvar]]))
-  nbygrps <- prod(sapply(byvars, function(v) length(unique(dt[[v]]))))
   combs <- combn(1:length(grps), 2)
   if (reverse) combs <- combs[2:1, ]
   
@@ -28,7 +27,7 @@ get_pairwise_differences <- function(dt, valuevar, groupvar, byvars, op = `-`, r
   }
   
   # Create data frame with by-group combinations, the two group names, and the row index of the sorted data frame where their means are
-  out <- data.frame(bygrpcombos, grp1 = grps[combs[1, ]], grp2 = grps[combs[2, ]], idx1 = combs[1,], idx2 = combs[2,], adj = rep(0:(nbygrps-1) * ncol(combs), each = ncol(combs)))
+  out <- data.frame(bygrpcombos[rep(1:nrow(bygrpcombos), each = ncol(combs)), ], grp1 = grps[combs[1, ]], grp2 = grps[combs[2, ]], idx1 = combs[1,], idx2 = combs[2,], adj = rep(0:(nrow(bygrpcombos)-1) * length(grps), each = ncol(combs)))
 
   # Add the mean columns to the data frame and take their difference
   out$mean1 <- dt[[valuevar]][out$idx1 + out$adj]
