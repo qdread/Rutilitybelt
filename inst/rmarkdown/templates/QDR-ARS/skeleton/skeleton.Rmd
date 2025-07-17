@@ -26,11 +26,11 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 # Setup
 
+Load packages. Set plot and table options.
+
 ```{r load packages}
 
-```
 
-```{r ggplot theme, include = FALSE}
 theme_set(
   theme_bw(base_size = 14) + 
     theme(panel.grid = element_blank(),
@@ -49,3 +49,11 @@ tabopts <- function(gt) {
 
 options(mc.cores = 4, brms.backend = 'cmdstanr', brms.file_refit = 'on_change')
 ```
+
+
+
+
+```{r session info, message = TRUE}
+Rutilitybelt::prettyInfo(sessionInfo())
+```
+
