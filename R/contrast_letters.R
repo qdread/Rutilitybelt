@@ -85,6 +85,94 @@ readjusted_alpha <- function(true_alpha, treatments_total, treatments_per_group)
   1 - (1 - alpha_sidak)^m2
 }
 
+#' Additional improved comparison letter function based on tidyverse
+#' @export
+get_comp_letters <- function(post_means,
+                             post_cons,
+                             diff_byvars = c(),
+                             diff_levelvar,
+                             x_var,
+                             pvalue_var,
+                             contrast_var = 'contrast',
+                             contrast_sep = ' - ',
+                             p_thresh = 0.05,
+                             decreasing_letters = FALSE) {
+  # Group the means and contrasts into lists based on the provided grouping variables
+  # If no grouping variables are provided, create a single one.
+  if (length(diff_byvars) == 0) {
+    post_means <- mutate(post_means, .byvar = 'x')
+    post_cons <- mutate(post_cons, .byvar = 'x')
+    diff_byvars <- '.byvar'
+  }
+  
+  comp_data <- left_join(
+    post_means %>% mutate(group = apply(.[, diff_levelvar, drop = FALSE], 1, paste, collapse = ' ')) %>% group_by(across(all_of(diff_byvars))) %>% nest(.key = 'means'),
+    post_cons %>% group_by(across(all_of(diff_byvars))) %>% nest(.key = 'cons'),
+    by = diff_byvars
+  )
+  
+  # Get level order and split the contrast names up into group1 and group2 columns
+  comp_data <- comp_data %>%
+    mutate(
+      level_order = map(means, ~ .$group[order(.[[x_var]])]),
+      cons = map(cons, function(cs)
+        mutate(
+          cs,
+          grp1 = map_chr(strsplit(
+            as.character(!!sym(contrast_var)), contrast_sep
+          ), 1),
+          grp2 = map_chr(strsplit(
+            as.character(!!sym(contrast_var)), contrast_sep
+          ), 2)
+        ))
+    )
+  
+  # Define function to get square comparison matrix, ordered in increasing order of the letters
+  ordered_comp_matrix <- function(con_df, lvl_order, pvalue_var) {
+    lvl_pairs <- combn(lvl_order, m = 2, simplify = FALSE)
+    m <- matrix(
+      0,
+      nrow = length(lvl_order),
+      ncol = length(lvl_order),
+      dimnames = list(lvl_order, lvl_order)
+    )
+    for (p in lvl_pairs) {
+      idx <- which((con_df$grp1 == p[1] &
+                      con_df$grp2 == p[2]) |
+                     (con_df$grp2 == p[1] &
+                        con_df$grp1 == p[2])
+      )
+      m[p[1], p[2]] <- con_df[[pvalue_var]][idx]
+      m[p[2], p[1]] <- con_df[[pvalue_var]][idx]
+    }
+    return(m)
+  }
+  
+  # Create the square symmetric matrix for each comparison and apply multcompLetters to it
+  comp_data <- comp_data %>%
+    mutate(
+      comp_mat = map2(
+        cons,
+        level_order,
+        ~ ordered_comp_matrix(.x, .y, pvalue_var = pvalue_var)
+      ),
+      letters = map(
+        comp_mat,
+        ~ multcompView::multcompLetters(., threshold = p_thresh, reversed = decreasing_letters)$Letters
+      )
+    )
+  
+  # Create output data frame with letter column
+  comp_data %>%
+    dplyr::select(-c(means, cons, level_order, comp_mat)) %>%
+    mutate(letters = map(letters, ~ tibble(
+      group = names(.), letter = .
+    ))) %>%
+    unnest(letters) %>%
+    ungroup %>%
+    dplyr::select(-any_of('.byvar')) %>%
+    rename(!!sym(diff_levelvar) := group)
+}
 
 
 

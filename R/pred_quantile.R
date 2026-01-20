@@ -28,3 +28,12 @@ pred_quantile_3D <- function(x_pred, y_pred, y_dim_names = c('quantile', 'var2',
   dimnames(y_pred_quant) <- dimname_list
   as.data.frame.table(y_pred_quant, responseName = response_name)
 }
+
+#' More general function to get medians and quantile credible intervals from a data table for multiple grouping variables, multiple quantiles, and multiple columns to be summarized
+#'
+#' @export
+median_and_QCI <- function(dt, group_vars, value_vars = '.value', CI_widths = c(0.8, 0.95, 0.99)) {
+  dt_long <- melt(dt, id.vars = c('.draw', group_vars), measure.vars = value_vars)
+  quants <- dt_long[, tidybayes::median_qi(value, .width = CI_widths), by = c('variable', group_vars)]
+  dcast(quants, paste(paste(group_vars, collapse = '+'), '+ variable + y ~ .width'), value.var = c('ymin', 'ymax'))
+}
