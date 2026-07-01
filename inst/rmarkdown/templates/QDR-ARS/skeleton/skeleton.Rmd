@@ -53,7 +53,10 @@ options(mc.cores = 4, brms.backend = 'cmdstanr', brms.file_refit = 'on_change')
 
 
 
-```{r session info, message = TRUE}
-Rutilitybelt::prettyInfo(sessionInfo())
+```{r session info, message = TRUE, echo = FALSE}
+sinf <- sessionInfo()
+message("R version and packages used in this document:\n", 
+        sinf$R.version$version.string, "\n", paste(rev(unname(unlist(lapply(sinf$otherPkgs, 
+            function(p) paste(p$Package, p$Version))))), collapse = ", "))
 ```
 
